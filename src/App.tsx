@@ -1,0 +1,415 @@
+import React, { useState } from 'react';
+import { 
+  Scale, 
+  Car, 
+  Heart, 
+  MapPin, 
+  Phone, 
+  Mail, 
+  MessageCircle, 
+  Menu, 
+  X, 
+  Send,
+  Coins
+} from 'lucide-react';
+import { FaInstagram, FaFacebook } from 'react-icons/fa';
+
+// ==========================================
+// VARIABLES DE ESTILO Y CONFIGURACIÓN
+// ==========================================
+const THEME = {
+  // Paleta de colores (Clases de Tailwind)
+  primaryColor: 'bg-slate-900', // Azul marino oscuro
+  primaryText: 'text-slate-900',
+  secondaryColor: 'bg-amber-600', // Dorado/Cobre
+  secondaryText: 'text-amber-600',
+  secondaryHover: 'hover:bg-amber-700',
+  
+  // Enlaces y datos
+  logoUrl: 'https://ui-avatars.com/api/?name=Romanela+Bazan&background=0f172a&color=d97706&font-size=0.4&bold=true', // Placeholder
+  contactInfo: {
+    phone: '+54 9 11 1234-5678',
+    email: 'contacto@estudiobazan.com',
+    address: 'Av. Corrientes 1234, Piso 4, CABA, Argentina',
+    instagram: 'https://instagram.com/',
+    facebook: 'https://facebook.com/',
+    whatsapp: 'https://wa.me/5491112345678' // Reemplazar con el número real
+  }
+};
+
+export default function App() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
+  const [formStatus, setFormStatus] = useState<'idle' | 'sending' | 'sent'>('idle');
+
+  // Manejador del formulario
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setFormStatus('sending');
+    
+    // Simulación de envío de correo (Reemplazar con fetch a tu API/Servicio)
+    setTimeout(() => {
+      setFormStatus('sent');
+      setFormData({ name: '', email: '', subject: '', message: '' });
+      setTimeout(() => setFormStatus('idle'), 4000);
+    }, 1500);
+  };
+
+  return (
+    <div className="font-sans text-slate-700 bg-slate-50 min-h-screen relative scroll-smooth">
+      
+      {/* ================= BOTÓN FLOTANTE WHATSAPP ================= */}
+      <a 
+        href={THEME.contactInfo.whatsapp}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="fixed bottom-6 right-6 z-50 bg-green-500 text-white p-4 rounded-full shadow-2xl hover:bg-green-600 transition-transform hover:scale-110 flex items-center justify-center"
+        aria-label="Contactar por WhatsApp"
+      >
+        <MessageCircle size={32} />
+      </a>
+
+      {/* ================= NAVBAR ================= */}
+      <nav className="fixed w-full bg-white/95 backdrop-blur-sm shadow-sm z-40 transition-all">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-20">
+            {/* Logo */}
+            <div className="flex-shrink-0 flex items-center cursor-pointer" onClick={() => window.scrollTo(0,0)}>
+              <img src={THEME.logoUrl} alt="Estudio Jurídico Romanela Bazan" className="h-12 w-auto rounded shadow-sm" />
+              <div className="ml-3 flex flex-col">
+                <span className={`font-serif text-xl font-bold tracking-tight ${THEME.primaryText}`}>ROMANELA BAZAN</span>
+                <span className="text-xs tracking-widest text-slate-500 uppercase font-medium">Abogada</span>
+              </div>
+            </div>
+
+            {/* Menú Desktop */}
+            <div className="hidden md:flex items-center space-x-8">
+              <a href="#inicio" className="text-sm font-medium text-slate-600 hover:text-amber-600 transition-colors">Inicio</a>
+              <a href="#servicios" className="text-sm font-medium text-slate-600 hover:text-amber-600 transition-colors">Especialidades</a>
+              <a href="#contacto" className="text-sm font-medium text-slate-600 hover:text-amber-600 transition-colors">Contacto</a>
+              <a 
+                href={THEME.contactInfo.whatsapp}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`${THEME.secondaryColor} ${THEME.secondaryHover} text-white px-5 py-2.5 rounded-md text-sm font-medium transition-colors shadow-sm`}
+              >
+                Consulta Directa
+              </a>
+            </div>
+
+            {/* Botón Menú Mobile */}
+            <div className="md:hidden flex items-center">
+              <button 
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                className="text-slate-600 hover:text-amber-600 focus:outline-none transition-colors"
+              >
+                {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Panel Menú Mobile */}
+        {isMenuOpen && (
+          <div className="md:hidden bg-white border-t border-slate-100 shadow-xl absolute w-full">
+            <div className="px-4 pt-2 pb-6 space-y-2">
+              <a href="#inicio" onClick={() => setIsMenuOpen(false)} className="block px-3 py-3 text-base font-medium text-slate-700 hover:bg-slate-50 hover:text-amber-600 rounded-md transition-colors">Inicio</a>
+              <a href="#servicios" onClick={() => setIsMenuOpen(false)} className="block px-3 py-3 text-base font-medium text-slate-700 hover:bg-slate-50 hover:text-amber-600 rounded-md transition-colors">Especialidades</a>
+              <a href="#contacto" onClick={() => setIsMenuOpen(false)} className="block px-3 py-3 text-base font-medium text-slate-700 hover:bg-slate-50 hover:text-amber-600 rounded-md transition-colors">Contacto</a>
+            </div>
+          </div>
+        )}
+      </nav>
+
+      {/* ================= HERO SECTION ================= */}
+      <section id="inicio" className="pt-20 relative bg-slate-900 flex items-center min-h-[90vh]">
+        <div className="absolute inset-0 overflow-hidden">
+          {/* Imagen de fondo profesional (Reemplazar URL por foto real) */}
+          <img 
+            src="https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&q=80&w=2000" 
+            alt="Despacho legal" 
+            className="w-full h-full object-cover opacity-25 mix-blend-overlay"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-slate-900 via-slate-900/90 to-transparent"></div>
+        </div>
+
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 w-full">
+          <div className="max-w-2xl">
+            <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6">
+              Defendiendo tus derechos con <span className="text-amber-500">compromiso y excelencia.</span>
+            </h1>
+            <p className="text-lg md:text-xl text-slate-300 mb-10 font-light leading-relaxed">
+              Asesoramiento legal integral y personalizado. Nos especializamos en derecho de familia, accidentes de tránsito y amparos de salud para brindarte la tranquilidad que mereces.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4">
+              <a 
+                href={THEME.contactInfo.whatsapp}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`inline-flex items-center justify-center px-8 py-4 text-base font-medium rounded-md text-white ${THEME.secondaryColor} ${THEME.secondaryHover} transition-all shadow-lg hover:shadow-amber-600/30`}
+              >
+                <MessageCircle className="mr-2" size={20} />
+                Contactar ahora
+              </a>
+              <a 
+                href="#servicios"
+                className="inline-flex items-center justify-center px-8 py-4 text-base font-medium rounded-md text-white bg-slate-800 hover:bg-slate-700 border border-slate-700 transition-all"
+              >
+                Ver servicios
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ================= SERVICIOS (ESPECIALIDADES) ================= */}
+      <section id="servicios" className="py-24 bg-slate-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <h2 className={`font-serif text-3xl md:text-4xl font-bold ${THEME.primaryText} mb-4`}>
+              Áreas de Práctica
+            </h2>
+            <div className="w-20 h-1 bg-amber-600 mx-auto mb-6 rounded"></div>
+            <p className="text-slate-600 text-lg">
+              Brindamos soluciones jurídicas efectivas en áreas fundamentales para tu bienestar y el de tus seres queridos.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {/* Card 1 */}
+            <div className="bg-white p-8 rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100 group translate-y-0 hover:-translate-y-2">
+              <div className="w-14 h-14 bg-amber-50 rounded-lg flex items-center justify-center mb-6 group-hover:bg-amber-600 transition-colors duration-300">
+                <Heart className="text-amber-600 group-hover:text-white transition-colors" size={28} />
+              </div>
+              <h3 className={`font-serif text-xl font-bold ${THEME.primaryText} mb-3`}>Casos de Familia</h3>
+              <p className="text-slate-600 text-sm leading-relaxed">
+                Divorcios, uniones convivenciales, régimen de comunicación y cuidado personal. Acompañamiento empático y estrictamente profesional.
+              </p>
+            </div>
+
+            {/* Card 2 */}
+            <div className="bg-white p-8 rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100 group translate-y-0 hover:-translate-y-2">
+              <div className="w-14 h-14 bg-amber-50 rounded-lg flex items-center justify-center mb-6 group-hover:bg-amber-600 transition-colors duration-300">
+                <Car className="text-amber-600 group-hover:text-white transition-colors" size={28} />
+              </div>
+              <h3 className={`font-serif text-xl font-bold ${THEME.primaryText} mb-3`}>Accidentes de Tránsito</h3>
+              <p className="text-slate-600 text-sm leading-relaxed">
+                Reclamos por daños y perjuicios, lesiones y negociaciones extrajudiciales con aseguradoras para obtener la máxima indemnización justa.
+              </p>
+            </div>
+
+            {/* Card 3 */}
+            <div className="bg-white p-8 rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100 group translate-y-0 hover:-translate-y-2">
+              <div className="w-14 h-14 bg-amber-50 rounded-lg flex items-center justify-center mb-6 group-hover:bg-amber-600 transition-colors duration-300">
+                <Scale className="text-amber-600 group-hover:text-white transition-colors" size={28} />
+              </div>
+              <h3 className={`font-serif text-xl font-bold ${THEME.primaryText} mb-3`}>Amparos de Salud</h3>
+              <p className="text-slate-600 text-sm leading-relaxed">
+                Protección urgente de tu derecho a la salud. Reclamos ante obras sociales y prepagas por negativas de cobertura, tratamientos o medicamentos.
+              </p>
+            </div>
+
+            {/* Card 4 */}
+            <div className="bg-white p-8 rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100 group translate-y-0 hover:-translate-y-2">
+              <div className="w-14 h-14 bg-amber-50 rounded-lg flex items-center justify-center mb-6 group-hover:bg-amber-600 transition-colors duration-300">
+                <Coins className="text-amber-600 group-hover:text-white transition-colors" size={28} />
+              </div>
+              <h3 className={`font-serif text-xl font-bold ${THEME.primaryText} mb-3`}>Cuotas Alimentarias</h3>
+              <p className="text-slate-600 text-sm leading-relaxed">
+                Reclamos por fijación, aumentos y ceses de cuota alimentaria. Garantizamos los derechos de los menores con la celeridad que amerita.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ================= CONTACTO Y REDES ================= */}
+      <section id="contacto" className="py-24 bg-white border-t border-slate-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+            
+            {/* Info y Mapa */}
+            <div>
+              <h2 className={`font-serif text-3xl md:text-4xl font-bold ${THEME.primaryText} mb-4`}>
+                Contacto
+              </h2>
+              <div className="w-16 h-1 bg-amber-600 mb-8 rounded"></div>
+              <p className="text-slate-600 mb-10 text-lg">
+                Estamos a tu entera disposición para evaluar tu caso de manera confidencial. Contáctanos para agendar una consulta presencial o virtual.
+              </p>
+
+              <div className="space-y-6 mb-10">
+                <div className="flex items-start">
+                  <div className="mt-1 bg-amber-50 p-3 rounded-full text-amber-600">
+                    <MapPin size={22} />
+                  </div>
+                  <div className="ml-5">
+                    <h4 className="font-bold text-slate-800">Dirección del Estudio</h4>
+                    <p className="text-slate-600 mt-1">{THEME.contactInfo.address}</p>
+                  </div>
+                </div>
+                
+                <div className="flex items-start">
+                  <div className="mt-1 bg-amber-50 p-3 rounded-full text-amber-600">
+                    <Phone size={22} />
+                  </div>
+                  <div className="ml-5">
+                    <h4 className="font-bold text-slate-800">Teléfono / WhatsApp</h4>
+                    <p className="text-slate-600 mt-1">{THEME.contactInfo.phone}</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start">
+                  <div className="mt-1 bg-amber-50 p-3 rounded-full text-amber-600">
+                    <Mail size={22} />
+                  </div>
+                  <div className="ml-5">
+                    <h4 className="font-bold text-slate-800">Correo Electrónico</h4>
+                    <p className="text-slate-600 mt-1">{THEME.contactInfo.email}</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Iframe de Google Maps Placeholder */}
+              <div className="w-full h-72 bg-slate-200 rounded-xl overflow-hidden shadow-inner border border-slate-200">
+                <iframe 
+                  title="Ubicación del Estudio"
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3284.016713578107!2d-58.38375908477038!3d-34.60373888045946!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzTCsDM2JzEzLjUiUyA1OMKwMjInNTMuNiJX!5e0!3m2!1ses!2sar!4v1620000000000!5m2!1ses!2sar" 
+                  width="100%" 
+                  height="100%" 
+                  style={{ border: 0 }} 
+                  allowFullScreen={false} 
+                  loading="lazy"
+                ></iframe>
+              </div>
+            </div>
+
+            {/* Formulario (UI con estado) */}
+            <div className="bg-white p-8 md:p-10 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 h-fit">
+              <h3 className={`font-serif text-2xl font-bold ${THEME.primaryText} mb-6`}>Envíanos tu consulta</h3>
+              
+              <form onSubmit={handleSubmit} className="space-y-5">
+                <div>
+                  <label htmlFor="name" className="block text-sm font-medium text-slate-700 mb-1.5">Nombre Completo</label>
+                  <input 
+                    type="text" 
+                    id="name" 
+                    name="name" 
+                    required
+                    value={formData.name}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition-all bg-slate-50"
+                    placeholder="Ej. Juan Pérez"
+                  />
+                </div>
+                
+                <div>
+                  <label htmlFor="email" className="block text-sm font-medium text-slate-700 mb-1.5">Correo Electrónico</label>
+                  <input 
+                    type="email" 
+                    id="email" 
+                    name="email" 
+                    required
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition-all bg-slate-50"
+                    placeholder="ejemplo@correo.com"
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="subject" className="block text-sm font-medium text-slate-700 mb-1.5">Asunto</label>
+                  <input 
+                    type="text" 
+                    id="subject" 
+                    name="subject" 
+                    required
+                    value={formData.subject}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition-all bg-slate-50"
+                    placeholder="Ej. Consulta por accidente de tránsito"
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="message" className="block text-sm font-medium text-slate-700 mb-1.5">Mensaje</label>
+                  <textarea 
+                    id="message" 
+                    name="message" 
+                    rows={4}
+                    required
+                    value={formData.message}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition-all bg-slate-50 resize-none"
+                    placeholder="Describe brevemente tu situación..."
+                  ></textarea>
+                </div>
+
+                <button 
+                  type="submit" 
+                  disabled={formStatus === 'sending' || formStatus === 'sent'}
+                  className={`w-full py-4 px-6 rounded-lg text-white font-medium flex items-center justify-center transition-all shadow-md ${
+                    formStatus === 'sent' ? 'bg-emerald-600' : `${THEME.secondaryColor} ${THEME.secondaryHover}`
+                  }`}
+                >
+                  {formStatus === 'idle' && (
+                    <>
+                      <Send size={18} className="mr-2" />
+                      Enviar Consulta
+                    </>
+                  )}
+                  {formStatus === 'sending' && 'Enviando mensaje...'}
+                  {formStatus === 'sent' && '¡Mensaje Enviado Exitosamente!'}
+                </button>
+                
+                {formStatus === 'sent' && (
+                  <p className="text-emerald-600 text-sm text-center mt-3 font-medium animate-pulse">
+                    Gracias por escribirnos. Nos contactaremos a la brevedad.
+                  </p>
+                )}
+              </form>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* ================= FOOTER ================= */}
+      <footer className={`${THEME.primaryColor} text-slate-300 py-12 border-t border-slate-800`}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row justify-between items-center mb-10">
+            <div className="mb-6 md:mb-0 text-center md:text-left">
+              <span className="font-serif text-2xl font-bold text-white block mb-2 tracking-tight">ROMANELA BAZAN</span>
+              <span className="text-sm text-slate-400">Estudio Jurídico Integral</span>
+            </div>
+            
+            {/* Redes Sociales */}
+            <div className="flex space-x-4">
+              <a href={THEME.contactInfo.instagram} target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center hover:bg-amber-600 hover:text-white transition-all hover:-translate-y-1">
+                <FaInstagram size={22} />
+              </a>
+              <a href={THEME.contactInfo.facebook} target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center hover:bg-amber-600 hover:text-white transition-all hover:-translate-y-1">
+                <FaFacebook size={22} />
+              </a>
+              <a href={THEME.contactInfo.whatsapp} target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center hover:bg-amber-600 hover:text-white transition-all hover:-translate-y-1">
+                <MessageCircle size={22} />
+              </a>
+            </div>
+          </div>
+          
+          <div className="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-slate-500">
+            <p>&copy; {new Date().getFullYear()} Estudio Jurídico Romanela Bazan. Todos los derechos reservados.</p>
+            <div className="mt-4 md:mt-0 space-x-6">
+              <a href="#" className="hover:text-amber-500 transition-colors">Política de Privacidad</a>
+              <a href="#" className="hover:text-amber-500 transition-colors">Términos y Condiciones</a>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+}
