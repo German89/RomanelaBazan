@@ -28,12 +28,12 @@ const THEME = {
   // Enlaces y datos
   logoUrl: 'https://ui-avatars.com/api/?name=Romanela+Bazan&background=0f172a&color=d97706&font-size=0.4&bold=true', // Placeholder
   contactInfo: {
-    phone: '+54 9 11 1234-5678',
-    email: 'contacto@estudiobazan.com',
-    address: 'Av. Corrientes 1234, Piso 4, CABA, Argentina',
-    instagram: 'https://instagram.com/',
-    facebook: 'https://facebook.com/',
-    whatsapp: 'https://wa.me/5491112345678' // Reemplazar con el número real
+    phone: '+54 9 3434 196459',
+    email: 'romanela-juridico@hotmail.com',
+    address: 'Almte. Thomas Cochrane 1139, E3100 Paraná, Entre Ríos',
+    instagram: 'https://www.instagram.com/abogada_romanela_bazan',
+    facebook: 'https://www.facebook.com/share/1E8tUp7cx2/',
+    whatsapp: 'https://wa.me/5493434196459'
   }
 };
 
@@ -91,14 +91,25 @@ export default function App() {
               <a href="#inicio" className="text-sm font-medium text-slate-600 hover:text-amber-600 transition-colors">Inicio</a>
               <a href="#servicios" className="text-sm font-medium text-slate-600 hover:text-amber-600 transition-colors">Especialidades</a>
               <a href="#contacto" className="text-sm font-medium text-slate-600 hover:text-amber-600 transition-colors">Contacto</a>
-              <a 
-                href={THEME.contactInfo.whatsapp}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`${THEME.secondaryColor} ${THEME.secondaryHover} text-white px-5 py-2.5 rounded-md text-sm font-medium transition-colors shadow-sm`}
-              >
-                Consulta Directa
-              </a>
+              
+              <div className="flex items-center space-x-4 border-l border-slate-200 pl-8">
+                <div className="flex items-center space-x-4">
+                  <a href={THEME.contactInfo.instagram} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-amber-600 transition-colors" aria-label="Instagram">
+                    <FaInstagram size={22} />
+                  </a>
+                  <a href={THEME.contactInfo.facebook} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-amber-600 transition-colors" aria-label="Facebook">
+                    <FaFacebook size={22} />
+                  </a>
+                </div>
+                <a 
+                  href={THEME.contactInfo.whatsapp}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`${THEME.secondaryColor} ${THEME.secondaryHover} text-white px-5 py-2.5 rounded-md text-sm font-medium transition-colors shadow-sm`}
+                >
+                  Consulta Directa
+                </a>
+              </div>
             </div>
 
             {/* Botón Menú Mobile */}
@@ -175,7 +186,7 @@ export default function App() {
             </h2>
             <div className="w-20 h-1 bg-amber-600 mx-auto mb-6 rounded"></div>
             <p className="text-slate-600 text-lg">
-              Brindamos soluciones jurídicas efectivas en áreas fundamentales para tu bienestar y el de tus seres queridos.
+              Brindo soluciones jurídicas efectivas en áreas fundamentales para tu bienestar y el de tus seres queridos.
             </p>
           </div>
 
@@ -187,7 +198,7 @@ export default function App() {
               </div>
               <h3 className={`font-serif text-xl font-bold ${THEME.primaryText} mb-3`}>Casos de Familia</h3>
               <p className="text-slate-600 text-sm leading-relaxed">
-                Divorcios, uniones convivenciales, régimen de comunicación y cuidado personal. Acompañamiento empático y estrictamente profesional.
+                <span className="font-bold text-black">Cuota Alimentaria</span>, Regimen de visitas, divorcios, uniones convivenciales, régimen de comunicación y cuidado personal. Acompañamiento empático.
               </p>
             </div>
 
@@ -218,9 +229,9 @@ export default function App() {
               <div className="w-14 h-14 bg-amber-50 rounded-lg flex items-center justify-center mb-6 group-hover:bg-amber-600 transition-colors duration-300">
                 <Coins className="text-amber-600 group-hover:text-white transition-colors" size={28} />
               </div>
-              <h3 className={`font-serif text-xl font-bold ${THEME.primaryText} mb-3`}>Cuotas Alimentarias</h3>
+              <h3 className={`font-serif text-xl font-bold ${THEME.primaryText} mb-3`}>Laboral</h3>
               <p className="text-slate-600 text-sm leading-relaxed">
-                Reclamos por fijación, aumentos y ceses de cuota alimentaria. Garantizamos los derechos de los menores con la celeridad que amerita.
+                Defensa integral de tus derechos: despidos injustificados, trabajo en negro (no registrado), diferencias salariales, accidentes de trabajo y enfermedades profesionales. Reclamos firmes para resultados justos.
               </p>
             </div>
           </div>
@@ -239,7 +250,7 @@ export default function App() {
               </h2>
               <div className="w-16 h-1 bg-amber-600 mb-8 rounded"></div>
               <p className="text-slate-600 mb-10 text-lg">
-                Estamos a tu entera disposición para evaluar tu caso de manera confidencial. Contáctanos para agendar una consulta presencial o virtual.
+                Estoy a tu entera disposición para evaluar tu caso de manera confidencial. Contactame para agendar una consulta presencial o virtual.
               </p>
 
               <div className="space-y-6 mb-10">
@@ -278,7 +289,7 @@ export default function App() {
               <div className="w-full h-72 bg-slate-200 rounded-xl overflow-hidden shadow-inner border border-slate-200">
                 <iframe 
                   title="Ubicación del Estudio"
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3284.016713578107!2d-58.38375908477038!3d-34.60373888045946!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzTCsDM2JzEzLjUiUyA1OMKwMjInNTMuNiJX!5e0!3m2!1ses!2sar!4v1620000000000!5m2!1ses!2sar" 
+                  src="https://maps.google.com/maps?q=Almte.%20Thomas%20Cochrane%201139,%20Paran%C3%A1,%20Entre%20R%C3%ADos&t=&z=15&ie=UTF8&iwloc=&output=embed" 
                   width="100%" 
                   height="100%" 
                   style={{ border: 0 }} 
