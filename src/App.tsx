@@ -10,9 +10,12 @@ import {
   Menu, 
   X, 
   Send,
-  Coins
+  Coins,
+  ChevronLeft,
+  ChevronRight
 } from 'lucide-react';
 import { FaInstagram, FaFacebook } from 'react-icons/fa';
+import logoInsta from './assets/LOGO_INSTA.png';
 
 // ==========================================
 // VARIABLES DE ESTILO Y CONFIGURACIÓN
@@ -26,7 +29,7 @@ const THEME = {
   secondaryHover: 'hover:bg-amber-700',
   
   // Enlaces y datos
-  logoUrl: 'https://ui-avatars.com/api/?name=Romanela+Bazan&background=0f172a&color=d97706&font-size=0.4&bold=true', // Placeholder
+  logoUrl: logoInsta,
   contactInfo: {
     phone: '+54 9 3434 196459',
     email: 'romanela-juridico@hotmail.com',
@@ -41,6 +44,21 @@ export default function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
   const [formStatus, setFormStatus] = useState<'idle' | 'sending' | 'sent'>('idle');
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  // Imágenes de muestra para el carrusel (puedes reemplazarlas por las tuyas)
+  const aboutImages = [
+    'https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&q=80&w=800', // Foto de abogada/estudio
+    'https://images.unsplash.com/photo-1556020685-e631933f1154?auto=format&fit=crop&q=80&w=800'  // Foto trabajando
+  ];
+
+  const nextImage = () => {
+    setCurrentImageIndex((prev) => (prev + 1) % aboutImages.length);
+  };
+
+  const prevImage = () => {
+    setCurrentImageIndex((prev) => (prev - 1 + aboutImages.length) % aboutImages.length);
+  };
 
   // Manejador del formulario
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -74,7 +92,7 @@ export default function App() {
       </a>
 
       {/* ================= NAVBAR ================= */}
-      <nav className="fixed w-full bg-white/95 backdrop-blur-sm shadow-sm z-40 transition-all">
+      <nav className="fixed w-full bg-zinc-50 shadow-sm z-40 transition-all">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-20">
             {/* Logo */}
@@ -90,6 +108,7 @@ export default function App() {
             <div className="hidden md:flex items-center space-x-8">
               <a href="#inicio" className="text-sm font-medium text-slate-600 hover:text-amber-600 transition-colors">Inicio</a>
               <a href="#servicios" className="text-sm font-medium text-slate-600 hover:text-amber-600 transition-colors">Especialidades</a>
+              <a href="#acerca-de-mi" className="text-sm font-medium text-slate-600 hover:text-amber-600 transition-colors">Acerca de mí</a>
               <a href="#contacto" className="text-sm font-medium text-slate-600 hover:text-amber-600 transition-colors">Contacto</a>
               
               <div className="flex items-center space-x-4 border-l border-slate-200 pl-8">
@@ -130,6 +149,7 @@ export default function App() {
             <div className="px-4 pt-2 pb-6 space-y-2">
               <a href="#inicio" onClick={() => setIsMenuOpen(false)} className="block px-3 py-3 text-base font-medium text-slate-700 hover:bg-slate-50 hover:text-amber-600 rounded-md transition-colors">Inicio</a>
               <a href="#servicios" onClick={() => setIsMenuOpen(false)} className="block px-3 py-3 text-base font-medium text-slate-700 hover:bg-slate-50 hover:text-amber-600 rounded-md transition-colors">Especialidades</a>
+              <a href="#acerca-de-mi" onClick={() => setIsMenuOpen(false)} className="block px-3 py-3 text-base font-medium text-slate-700 hover:bg-slate-50 hover:text-amber-600 rounded-md transition-colors">Acerca de mí</a>
               <a href="#contacto" onClick={() => setIsMenuOpen(false)} className="block px-3 py-3 text-base font-medium text-slate-700 hover:bg-slate-50 hover:text-amber-600 rounded-md transition-colors">Contacto</a>
             </div>
           </div>
@@ -233,6 +253,83 @@ export default function App() {
               <p className="text-slate-600 text-sm leading-relaxed">
                 Defensa integral de tus derechos: despidos injustificados, trabajo en negro (no registrado), diferencias salariales, accidentes de trabajo y enfermedades profesionales. Reclamos firmes para resultados justos.
               </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ================= ACERCA DE MI ================= */}
+      <section id="acerca-de-mi" className="py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <h2 className={`font-serif text-3xl md:text-4xl font-bold ${THEME.primaryText} mb-4`}>
+              Acerca de mí
+            </h2>
+            <div className="w-16 h-1 bg-amber-600 mx-auto mb-6 rounded"></div>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            {/* Carrusel de Imágenes */}
+            <div className="relative group rounded-2xl overflow-hidden shadow-xl h-80 sm:h-96">
+              <img 
+                src={aboutImages[currentImageIndex]} 
+                alt={`Romanela Bazan - Foto ${currentImageIndex + 1}`} 
+                className="w-full h-full object-cover transition-transform duration-500"
+              />
+              
+              {/* Controles del carrusel */}
+              <button 
+                onClick={prevImage}
+                className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/80 hover:bg-white rounded-full flex items-center justify-center text-slate-800 shadow-md opacity-0 group-hover:opacity-100 transition-all duration-300"
+                aria-label="Imagen anterior"
+              >
+                <ChevronLeft size={24} />
+              </button>
+              <button 
+                onClick={nextImage}
+                className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/80 hover:bg-white rounded-full flex items-center justify-center text-slate-800 shadow-md opacity-0 group-hover:opacity-100 transition-all duration-300"
+                aria-label="Siguiente imagen"
+              >
+                <ChevronRight size={24} />
+              </button>
+
+              {/* Indicadores */}
+              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2">
+                {aboutImages.map((_, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => setCurrentImageIndex(idx)}
+                    className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
+                      idx === currentImageIndex ? 'bg-amber-600 w-6' : 'bg-white/60 hover:bg-white'
+                    }`}
+                    aria-label={`Ir a imagen ${idx + 1}`}
+                  />
+                ))}
+              </div>
+            </div>
+
+            {/* Texto Acerca de mí */}
+            <div className="space-y-6">
+              <h3 className={`font-serif text-2xl font-bold ${THEME.primaryText}`}>
+                Dra. Romanela Bazan
+              </h3>
+              <p className="text-slate-600 text-lg leading-relaxed">
+                Soy abogada egresada de la Universidad, dedicada a brindar asesoramiento jurídico con un enfoque profundamente humano y empático. Mi prioridad es escuchar y entender la situación de cada cliente para ofrecerle la solución más justa y efectiva.
+              </p>
+              <p className="text-slate-600 text-lg leading-relaxed">
+                Con años de experiencia en el ámbito legal, me especializo en derecho de familia, accidentes de tránsito y amparos de salud. Creo firmemente en la defensa apasionada de los derechos, el compromiso inquebrantable y la excelencia profesional en cada paso del proceso.
+              </p>
+              <p className="text-slate-600 text-lg leading-relaxed">
+                Mi objetivo es acompañarte y brindarte la tranquilidad de que tu caso está en buenas manos, gestionando cada detalle con la máxima rigurosidad y transparencia.
+              </p>
+              <div className="pt-4">
+                <a 
+                  href="#contacto"
+                  className={`inline-flex items-center justify-center px-6 py-3 text-base font-medium rounded-md text-white ${THEME.secondaryColor} ${THEME.secondaryHover} transition-all shadow-md`}
+                >
+                  Contactar ahora
+                </a>
+              </div>
             </div>
           </div>
         </div>
