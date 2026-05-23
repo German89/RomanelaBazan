@@ -6,7 +6,6 @@ import {
   MapPin, 
   Phone, 
   Mail, 
-  MessageCircle, 
   Menu, 
   X, 
   Send,
@@ -14,8 +13,13 @@ import {
   ChevronLeft,
   ChevronRight
 } from 'lucide-react';
-import { FaInstagram, FaFacebook } from 'react-icons/fa';
+import { FaInstagram, FaFacebook, FaWhatsapp } from 'react-icons/fa';
 import logoInsta from './assets/LOGO_INSTA.png';
+import juraImg from './assets/fotoCarrousel/jura.jpeg';
+import jurandoImg from './assets/fotoCarrousel/jurando.jpeg';
+import estudioImg from './assets/fotoCarrousel/estudio.jpeg';
+import rabajando1Img from './assets/fotoCarrousel/rabajando 1.jpeg';
+import trabajando2Img from './assets/fotoCarrousel/trabajando 2.jpeg';
 
 // ==========================================
 // VARIABLES DE ESTILO Y CONFIGURACIÓN
@@ -24,9 +28,9 @@ const THEME = {
   // Paleta de colores (Clases de Tailwind)
   primaryColor: 'bg-slate-900', // Azul marino oscuro
   primaryText: 'text-slate-900',
-  secondaryColor: 'bg-amber-600', // Dorado/Cobre
-  secondaryText: 'text-amber-600',
-  secondaryHover: 'hover:bg-amber-700',
+  secondaryColor: 'bg-pink-400', // Dorado/Cobre
+  secondaryText: 'bg-pink-700',
+  secondaryHover: 'hover:bg-pink-400',
   
   // Enlaces y datos
   logoUrl: logoInsta,
@@ -48,8 +52,11 @@ export default function App() {
 
   // Imágenes de muestra para el carrusel (puedes reemplazarlas por las tuyas)
   const aboutImages = [
-    'https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&q=80&w=800', // Foto de abogada/estudio
-    'https://images.unsplash.com/photo-1556020685-e631933f1154?auto=format&fit=crop&q=80&w=800'  // Foto trabajando
+    juraImg,
+    jurandoImg,
+    estudioImg,
+    rabajando1Img,
+    trabajando2Img
   ];
 
   const nextImage = () => {
@@ -65,16 +72,38 @@ export default function App() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setFormStatus('sending');
     
-    // Simulación de envío de correo (Reemplazar con fetch a tu API/Servicio)
-    setTimeout(() => {
-      setFormStatus('sent');
-      setFormData({ name: '', email: '', subject: '', message: '' });
-      setTimeout(() => setFormStatus('idle'), 4000);
-    }, 1500);
+    try {
+      const response = await fetch("https://formsubmit.co/ajax/romanela-juridico@hotmail.com", {
+        method: "POST",
+        headers: { 
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+            Nombre: formData.name,
+            Email: formData.email,
+            Asunto: formData.subject,
+            Mensaje: formData.message,
+            _subject: `Nueva consulta web: ${formData.subject}`
+        })
+      });
+
+      if (response.ok) {
+        setFormStatus('sent');
+        setFormData({ name: '', email: '', subject: '', message: '' });
+        setTimeout(() => setFormStatus('idle'), 4000);
+      } else {
+        throw new Error('Network response was not ok');
+      }
+    } catch (error) {
+      console.error("Error al enviar el formulario:", error);
+      setFormStatus('idle');
+      alert("Hubo un problema al enviar tu mensaje. Por favor, intenta de nuevo o contáctanos por WhatsApp.");
+    }
   };
 
   return (
@@ -88,7 +117,7 @@ export default function App() {
         className="fixed bottom-6 right-6 z-50 bg-green-500 text-white p-4 rounded-full shadow-2xl hover:bg-green-600 transition-transform hover:scale-110 flex items-center justify-center"
         aria-label="Contactar por WhatsApp"
       >
-        <MessageCircle size={32} />
+        <FaWhatsapp size={32} />
       </a>
 
       {/* ================= NAVBAR ================= */}
@@ -120,14 +149,6 @@ export default function App() {
                     <FaFacebook size={22} />
                   </a>
                 </div>
-                <a 
-                  href={THEME.contactInfo.whatsapp}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`${THEME.secondaryColor} ${THEME.secondaryHover} text-white px-5 py-2.5 rounded-md text-sm font-medium transition-colors shadow-sm`}
-                >
-                  Consulta Directa
-                </a>
               </div>
             </div>
 
@@ -157,7 +178,7 @@ export default function App() {
       </nav>
 
       {/* ================= HERO SECTION ================= */}
-      <section id="inicio" className="pt-20 relative bg-slate-900 flex items-center min-h-[90vh]">
+      <section id="inicio" className="pt-20 relative bg-blue-950 flex items-center min-h-[90vh]">
         <div className="absolute inset-0 overflow-hidden">
           {/* Imagen de fondo profesional (Reemplazar URL por foto real) */}
           <img 
@@ -165,16 +186,16 @@ export default function App() {
             alt="Despacho legal" 
             className="w-full h-full object-cover opacity-25 mix-blend-overlay"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-slate-900 via-slate-900/90 to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-r bg-blue-950 via-slate-900/90 to-transparent"></div>
         </div>
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 w-full">
           <div className="max-w-2xl">
             <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6">
-              Defendiendo tus derechos con <span className="text-amber-500">compromiso y excelencia.</span>
+              Defendiendo tus derechos con <span className="text-pink-400">compromiso y excelencia.</span>
             </h1>
             <p className="text-lg md:text-xl text-slate-300 mb-10 font-light leading-relaxed">
-              Asesoramiento legal integral y personalizado. Nos especializamos en derecho de familia, accidentes de tránsito y amparos de salud para brindarte la tranquilidad que mereces.
+              Asesoramiento legal integral y personalizado. Me especializo en derecho de familia, accidentes de tránsito, amparos de salud y derecho laboral para brindarte la tranquilidad que mereces.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <a 
@@ -183,7 +204,7 @@ export default function App() {
                 rel="noopener noreferrer"
                 className={`inline-flex items-center justify-center px-8 py-4 text-base font-medium rounded-md text-white ${THEME.secondaryColor} ${THEME.secondaryHover} transition-all shadow-lg hover:shadow-amber-600/30`}
               >
-                <MessageCircle className="mr-2" size={20} />
+                <FaWhatsapp className="mr-2" size={20} />
                 Contactar ahora
               </a>
               <a 
@@ -204,28 +225,25 @@ export default function App() {
             <h2 className={`font-serif text-3xl md:text-4xl font-bold ${THEME.primaryText} mb-4`}>
               Áreas de Práctica
             </h2>
-            <div className="w-20 h-1 bg-amber-600 mx-auto mb-6 rounded"></div>
-            <p className="text-slate-600 text-lg">
-              Brindo soluciones jurídicas efectivas en áreas fundamentales para tu bienestar y el de tus seres queridos.
-            </p>
+            <div className="w-20 h-1 bg-pink-500 mx-auto mb-6 rounded"></div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {/* Card 1 */}
             <div className="bg-white p-8 rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100 group translate-y-0 hover:-translate-y-2">
-              <div className="w-14 h-14 bg-amber-50 rounded-lg flex items-center justify-center mb-6 group-hover:bg-amber-600 transition-colors duration-300">
-                <Heart className="text-amber-600 group-hover:text-white transition-colors" size={28} />
+              <div className="w-14 h-14 bg-pink-50 rounded-lg flex items-center justify-center mb-6 group-hover:bg-pink-700 transition-colors duration-300">
+                <Heart className="text-pink-600 group-hover:text-white transition-colors" size={28} />
               </div>
-              <h3 className={`font-serif text-xl font-bold ${THEME.primaryText} mb-3`}>Casos de Familia</h3>
+              <h3 className={`font-serif text-xl font-bold ${THEME.primaryText} mb-3`}>Derecho de Familia</h3>
               <p className="text-slate-600 text-sm leading-relaxed">
-                <span className="font-bold text-black">Cuota Alimentaria</span>, Regimen de visitas, divorcios, uniones convivenciales, régimen de comunicación y cuidado personal. Acompañamiento empático.
+                Cuota Alimentaria, divorcios, régimen de comunicación y cuidado personal.
               </p>
             </div>
 
             {/* Card 2 */}
             <div className="bg-white p-8 rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100 group translate-y-0 hover:-translate-y-2">
-              <div className="w-14 h-14 bg-amber-50 rounded-lg flex items-center justify-center mb-6 group-hover:bg-amber-600 transition-colors duration-300">
-                <Car className="text-amber-600 group-hover:text-white transition-colors" size={28} />
+              <div className="w-14 h-14 bg-pink-50 rounded-lg flex items-center justify-center mb-6 group-hover:bg-pink-700 transition-colors duration-300">
+                <Car className="text-pink-600 group-hover:text-white transition-colors" size={28} />
               </div>
               <h3 className={`font-serif text-xl font-bold ${THEME.primaryText} mb-3`}>Accidentes de Tránsito</h3>
               <p className="text-slate-600 text-sm leading-relaxed">
@@ -235,8 +253,8 @@ export default function App() {
 
             {/* Card 3 */}
             <div className="bg-white p-8 rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100 group translate-y-0 hover:-translate-y-2">
-              <div className="w-14 h-14 bg-amber-50 rounded-lg flex items-center justify-center mb-6 group-hover:bg-amber-600 transition-colors duration-300">
-                <Scale className="text-amber-600 group-hover:text-white transition-colors" size={28} />
+              <div className="w-14 h-14 bg-pink-50 rounded-lg flex items-center justify-center mb-6 group-hover:bg-pink-700 transition-colors duration-300">
+                <Scale className="text-pink-600 group-hover:text-white transition-colors" size={28} />
               </div>
               <h3 className={`font-serif text-xl font-bold ${THEME.primaryText} mb-3`}>Amparos de Salud</h3>
               <p className="text-slate-600 text-sm leading-relaxed">
@@ -246,10 +264,10 @@ export default function App() {
 
             {/* Card 4 */}
             <div className="bg-white p-8 rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100 group translate-y-0 hover:-translate-y-2">
-              <div className="w-14 h-14 bg-amber-50 rounded-lg flex items-center justify-center mb-6 group-hover:bg-amber-600 transition-colors duration-300">
-                <Coins className="text-amber-600 group-hover:text-white transition-colors" size={28} />
+              <div className="w-14 h-14 bg-pink-50 rounded-lg flex items-center justify-center mb-6 group-hover:bg-pink-700 transition-colors duration-300">
+                <Coins className="text-pink-600 group-hover:text-white transition-colors" size={28} />
               </div>
-              <h3 className={`font-serif text-xl font-bold ${THEME.primaryText} mb-3`}>Laboral</h3>
+              <h3 className={`font-serif text-xl font-bold ${THEME.primaryText} mb-3`}>Derecho Laboral</h3>
               <p className="text-slate-600 text-sm leading-relaxed">
                 Defensa integral de tus derechos: despidos injustificados, trabajo en negro (no registrado), diferencias salariales, accidentes de trabajo y enfermedades profesionales. Reclamos firmes para resultados justos.
               </p>
@@ -265,12 +283,12 @@ export default function App() {
             <h2 className={`font-serif text-3xl md:text-4xl font-bold ${THEME.primaryText} mb-4`}>
               Acerca de mí
             </h2>
-            <div className="w-16 h-1 bg-amber-600 mx-auto mb-6 rounded"></div>
+            <div className="w-16 h-1 bg-pink-600 mx-auto mb-6 rounded"></div>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             {/* Carrusel de Imágenes */}
-            <div className="relative group rounded-2xl overflow-hidden shadow-xl h-80 sm:h-96">
+            <div className="relative group rounded-2xl overflow-hidden shadow-xl h-[400px] sm:h-[480px] lg:h-[620px]">
               <img 
                 src={aboutImages[currentImageIndex]} 
                 alt={`Romanela Bazan - Foto ${currentImageIndex + 1}`} 
@@ -314,13 +332,14 @@ export default function App() {
                 Dra. Romanela Bazan
               </h3>
               <p className="text-slate-600 text-lg leading-relaxed">
-                Soy abogada egresada de la Universidad, dedicada a brindar asesoramiento jurídico con un enfoque profundamente humano y empático. Mi prioridad es escuchar y entender la situación de cada cliente para ofrecerle la solución más justa y efectiva.
+                Soy abogada egresada de la Universidad Nacional del Litoral (2014) y mediadora, dedicada a brindar asesoramiento jurídico con un enfoque profundamente humano y empático. Mi prioridad es escuchar y entender la situación de cada cliente para ofrecerle la solución más justa y efectiva.
+                Realice diversos cursos de posgrado y actualizacion tales como Procesos de Familia, Impuestos a las ganancias en Jubilados, abogado del niño, actualizacion en accidentes de transito, entre otros
               </p>
               <p className="text-slate-600 text-lg leading-relaxed">
-                Con años de experiencia en el ámbito legal, me especializo en derecho de familia, accidentes de tránsito y amparos de salud. Creo firmemente en la defensa apasionada de los derechos, el compromiso inquebrantable y la excelencia profesional en cada paso del proceso.
+                Con años de experiencia, me especializo en derecho de familia, accidentes de tránsito, amparos de salud y derecho laboral. Creo firmemente en la defensa apasionada de los derechos, el compromiso inquebrantable y la excelencia profesional en cada paso del proceso.
               </p>
               <p className="text-slate-600 text-lg leading-relaxed">
-                Mi objetivo es acompañarte y brindarte la tranquilidad de que tu caso está en buenas manos, gestionando cada detalle con la máxima rigurosidad y transparencia.
+                Mi objetivo es acompañarte y brindarte la tranquilidad de que tu caso está en buenas manos.
               </p>
               <div className="pt-4">
                 <a 
@@ -345,14 +364,14 @@ export default function App() {
               <h2 className={`font-serif text-3xl md:text-4xl font-bold ${THEME.primaryText} mb-4`}>
                 Contacto
               </h2>
-              <div className="w-16 h-1 bg-amber-600 mb-8 rounded"></div>
+              <div className="w-16 h-1 bg-pink-600 mb-8 rounded"></div>
               <p className="text-slate-600 mb-10 text-lg">
-                Estoy a tu entera disposición para evaluar tu caso de manera confidencial. Contactame para agendar una consulta presencial o virtual.
+                Estoy a tu disposición para evaluar tu caso de manera confidencial. Contactame para agendar una consulta presencial o virtual.
               </p>
 
               <div className="space-y-6 mb-10">
                 <div className="flex items-start">
-                  <div className="mt-1 bg-amber-50 p-3 rounded-full text-amber-600">
+                  <div className="mt-1 bg-pink-50 p-3 rounded-full text-pink-600">
                     <MapPin size={22} />
                   </div>
                   <div className="ml-5">
@@ -362,7 +381,7 @@ export default function App() {
                 </div>
                 
                 <div className="flex items-start">
-                  <div className="mt-1 bg-amber-50 p-3 rounded-full text-amber-600">
+                  <div className="mt-1 bg-pink-50 p-3 rounded-full text-pink-600">
                     <Phone size={22} />
                   </div>
                   <div className="ml-5">
@@ -372,7 +391,7 @@ export default function App() {
                 </div>
 
                 <div className="flex items-start">
-                  <div className="mt-1 bg-amber-50 p-3 rounded-full text-amber-600">
+                  <div className="mt-1 bg-pink-50 p-3 rounded-full text-pink-600">
                     <Mail size={22} />
                   </div>
                   <div className="ml-5">
@@ -504,7 +523,7 @@ export default function App() {
                 <FaFacebook size={22} />
               </a>
               <a href={THEME.contactInfo.whatsapp} target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center hover:bg-amber-600 hover:text-white transition-all hover:-translate-y-1">
-                <MessageCircle size={22} />
+                <FaWhatsapp size={22} />
               </a>
             </div>
           </div>
