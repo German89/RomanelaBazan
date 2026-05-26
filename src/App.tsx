@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { 
   Scale, 
   Car, 
@@ -43,18 +43,18 @@ const THEME = {
   }
 };
 
+// Imágenes de muestra para el carrusel
+const aboutImages = [
+  juraImg,
+  jurandoImg,
+  estudioImg,
+  rabajando1Img,
+  trabajando2Img
+];
+
 export default function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-
-  // Imágenes de muestra para el carrusel (puedes reemplazarlas por las tuyas)
-  const aboutImages = [
-    juraImg,
-    jurandoImg,
-    estudioImg,
-    rabajando1Img,
-    trabajando2Img
-  ];
 
   const nextImage = () => {
     setCurrentImageIndex((prev) => (prev + 1) % aboutImages.length);
@@ -63,6 +63,15 @@ export default function App() {
   const prevImage = () => {
     setCurrentImageIndex((prev) => (prev - 1 + aboutImages.length) % aboutImages.length);
   };
+
+  // Efecto para pasar las fotos automáticamente cada 4 segundos
+  useEffect(() => {
+    const timer = setInterval(() => {
+      nextImage();
+    }, 4000);
+
+    return () => clearInterval(timer);
+  }, [currentImageIndex]);
 
   return (
     <div className="font-sans text-slate-700 bg-slate-50 min-h-screen relative scroll-smooth">
@@ -153,7 +162,7 @@ export default function App() {
               Defendiendo tus derechos con <span className="text-pink-400">compromiso y excelencia.</span>
             </h1>
             <p className="text-lg md:text-xl text-slate-300 mb-10 font-light leading-relaxed">
-              Asesoramiento legal integral y personalizado. Me especializo en derecho de familia, accidentes de tránsito, amparos de salud y derecho laboral para brindarte la tranquilidad que mereces.
+              Asesoramiento legal integral y personalizado. Me especializo en derecho de familia, accidentes de tránsito, amparos de salud y derecho laboral, para brindarte la tranquilidad que mereces.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <a 
