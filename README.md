@@ -1,5 +1,27 @@
 # React + TypeScript + Vite
 
+## Deploy automatico por GitHub Actions (FTP)
+
+Este proyecto incluye el workflow [deploy-ftp.yml](.github/workflows/deploy-ftp.yml) para construir y publicar automaticamente el contenido de `dist` en tu hosting.
+
+Se ejecuta en cada push a `main` o `master`, y tambien se puede correr manualmente desde Actions (`workflow_dispatch`).
+
+### Secrets requeridos en GitHub
+
+En `Settings > Secrets and variables > Actions`, crea estos secretos del repositorio:
+
+- `FTP_SERVER`: host FTP o FTPS (ej: `ftp.tudominio.com`)
+- `FTP_USERNAME`: usuario FTP
+- `FTP_PASSWORD`: password FTP
+- `FTP_SERVER_DIR`: ruta remota de publicacion (ej: `/public_html/`)
+
+### Notas
+
+- El workflow ejecuta `npm ci` y `npm run build`.
+- Solo sube el contenido de `dist/`.
+- `dangerous-clean-slate: true` limpia la carpeta remota destino antes de subir (evita archivos viejos).
+
+
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:
