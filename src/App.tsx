@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { 
   Scale, 
   Car, 
@@ -8,7 +8,6 @@ import {
   Mail, 
   Menu, 
   X, 
-  Send,
   Coins,
   ChevronLeft,
   ChevronRight
@@ -46,8 +45,6 @@ const THEME = {
 
 export default function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
-  const [formStatus, setFormStatus] = useState<'idle' | 'sending' | 'sent'>('idle');
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   // Imágenes de muestra para el carrusel (puedes reemplazarlas por las tuyas)
@@ -65,45 +62,6 @@ export default function App() {
 
   const prevImage = () => {
     setCurrentImageIndex((prev) => (prev - 1 + aboutImages.length) % aboutImages.length);
-  };
-
-  // Manejador del formulario
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setFormStatus('sending');
-    
-    try {
-      const response = await fetch("https://formsubmit.co/ajax/romanela-juridico@hotmail.com", {
-        method: "POST",
-        headers: { 
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-        },
-        body: JSON.stringify({
-            Nombre: formData.name,
-            Email: formData.email,
-            Asunto: formData.subject,
-            Mensaje: formData.message,
-            _subject: `Nueva consulta web: ${formData.subject}`
-        })
-      });
-
-      if (response.ok) {
-        setFormStatus('sent');
-        setFormData({ name: '', email: '', subject: '', message: '' });
-        setTimeout(() => setFormStatus('idle'), 4000);
-      } else {
-        throw new Error('Network response was not ok');
-      }
-    } catch (error) {
-      console.error("Error al enviar el formulario:", error);
-      setFormStatus('idle');
-      alert("Hubo un problema al enviar tu mensaje. Por favor, intenta de nuevo o contáctanos por WhatsApp.");
-    }
   };
 
   return (
@@ -401,104 +359,20 @@ export default function App() {
                 </div>
               </div>
 
-              {/* Iframe de Google Maps Placeholder */}
-              <div className="w-full h-72 bg-slate-200 rounded-xl overflow-hidden shadow-inner border border-slate-200">
-                <iframe 
-                  title="Ubicación del Estudio"
-                  src="https://maps.google.com/maps?q=Almte.%20Thomas%20Cochrane%201139,%20Paran%C3%A1,%20Entre%20R%C3%ADos&t=&z=15&ie=UTF8&iwloc=&output=embed" 
-                  width="100%" 
-                  height="100%" 
-                  style={{ border: 0 }} 
-                  allowFullScreen={false} 
-                  loading="lazy"
-                ></iframe>
-              </div>
             </div>
 
-            {/* Formulario (UI con estado) */}
-            <div className="bg-white p-8 md:p-10 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 h-fit">
-              <h3 className={`font-serif text-2xl font-bold ${THEME.primaryText} mb-6`}>Envíanos tu consulta</h3>
-              
-              <form onSubmit={handleSubmit} className="space-y-5">
-                <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-slate-700 mb-1.5">Nombre Completo</label>
-                  <input 
-                    type="text" 
-                    id="name" 
-                    name="name" 
-                    required
-                    value={formData.name}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition-all bg-slate-50"
-                    placeholder="Ej. Juan Pérez"
-                  />
-                </div>
-                
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-slate-700 mb-1.5">Correo Electrónico</label>
-                  <input 
-                    type="email" 
-                    id="email" 
-                    name="email" 
-                    required
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition-all bg-slate-50"
-                    placeholder="ejemplo@correo.com"
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="subject" className="block text-sm font-medium text-slate-700 mb-1.5">Asunto</label>
-                  <input 
-                    type="text" 
-                    id="subject" 
-                    name="subject" 
-                    required
-                    value={formData.subject}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition-all bg-slate-50"
-                    placeholder="Ej. Consulta por accidente de tránsito"
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-slate-700 mb-1.5">Mensaje</label>
-                  <textarea 
-                    id="message" 
-                    name="message" 
-                    rows={4}
-                    required
-                    value={formData.message}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition-all bg-slate-50 resize-none"
-                    placeholder="Describe brevemente tu situación..."
-                  ></textarea>
-                </div>
-
-                <button 
-                  type="submit" 
-                  disabled={formStatus === 'sending' || formStatus === 'sent'}
-                  className={`w-full py-4 px-6 rounded-lg text-white font-medium flex items-center justify-center transition-all shadow-md ${
-                    formStatus === 'sent' ? 'bg-emerald-600' : `${THEME.secondaryColor} ${THEME.secondaryHover}`
-                  }`}
-                >
-                  {formStatus === 'idle' && (
-                    <>
-                      <Send size={18} className="mr-2" />
-                      Enviar Consulta
-                    </>
-                  )}
-                  {formStatus === 'sending' && 'Enviando mensaje...'}
-                  {formStatus === 'sent' && '¡Mensaje Enviado Exitosamente!'}
-                </button>
-                
-                {formStatus === 'sent' && (
-                  <p className="text-emerald-600 text-sm text-center mt-3 font-medium animate-pulse">
-                    Gracias por escribirnos. Nos contactaremos a la brevedad.
-                  </p>
-                )}
-              </form>
+            {/* Mapa reubicado en lugar del formulario */}
+            <div className="bg-white p-3 md:p-4 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 h-full min-h-[420px]">
+              <iframe 
+                title="Ubicación del Estudio"
+                src="https://maps.google.com/maps?q=Almte.%20Thomas%20Cochrane%201139,%20Paran%C3%A1,%20Entre%20R%C3%ADos&t=&z=15&ie=UTF8&iwloc=&output=embed" 
+                width="100%" 
+                height="100%" 
+                style={{ border: 0 }} 
+                allowFullScreen={false} 
+                loading="lazy"
+                className="w-full h-full rounded-xl"
+              ></iframe>
             </div>
 
           </div>
