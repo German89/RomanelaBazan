@@ -93,7 +93,7 @@ export default function App() {
           <div className="flex justify-between items-center h-20">
             {/* Logo */}
             <div className="flex-shrink-0 flex items-center cursor-pointer" onClick={() => window.scrollTo(0,0)}>
-              <img src={THEME.logoUrl} alt="Estudio Jurídico Romanela Bazan" className="h-12 w-auto rounded shadow-sm" />
+              <img src={THEME.logoUrl} alt="Estudio Jurídico Romanela Bazán" className="h-12 w-auto rounded shadow-sm" />
               <div className="ml-3 flex flex-col">
                 <span className={`font-serif text-xl font-bold tracking-tight ${THEME.primaryText}`}>ROMANELA BAZAN</span>
                 <span className="text-xs tracking-widest text-slate-500 uppercase font-medium">Abogada</span>
@@ -258,7 +258,7 @@ export default function App() {
             <div className="relative group rounded-2xl overflow-hidden shadow-xl h-[400px] sm:h-[480px] lg:h-[620px]">
               <img 
                 src={aboutImages[currentImageIndex]} 
-                alt={`Romanela Bazan - Foto ${currentImageIndex + 1}`} 
+                alt={`Romanela Bazán - Foto ${currentImageIndex + 1}`} 
                 className="w-full h-full object-cover transition-transform duration-500"
               />
               
@@ -296,7 +296,7 @@ export default function App() {
             {/* Texto Acerca de mí */}
             <div className="space-y-6">
               <h3 className={`font-serif text-2xl font-bold ${THEME.primaryText}`}>
-                Dra. Romanela Bazan
+                Dra. Romanela Bazán
               </h3>
               <p className="text-slate-600 text-lg leading-relaxed">
                 Soy abogada egresada de la Universidad Nacional del Litoral (2014) y mediadora, dedicada a brindar asesoramiento jurídico con un enfoque profundamente humano y empático. Mi prioridad es escuchar y entender la situación de cada cliente para ofrecerle la solución más justa y efectiva.
@@ -412,7 +412,7 @@ export default function App() {
           </div>
           
           <div className="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-slate-500">
-            <p>&copy; {new Date().getFullYear()} Estudio Jurídico Romanela Bazan. Todos los derechos reservados.</p>
+            <p>&copy; {new Date().getFullYear()} Estudio Jurídico Romanela Bazán. Todos los derechos reservados.</p>
             <div className="mt-4 md:mt-0 space-x-6">
               <a href="#" className="hover:text-amber-500 transition-colors">Política de Privacidad</a>
               <a href="#" className="hover:text-amber-500 transition-colors">Términos y Condiciones</a>
